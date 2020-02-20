@@ -1,0 +1,3 @@
+class TeamCollection
+  
+end
