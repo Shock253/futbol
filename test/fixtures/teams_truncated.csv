@@ -1,0 +1,11 @@
+team_id,franchiseId,teamName,abbreviation,Stadium,link
+25,15,Chicago Red Stars,CRS,SeatGeek Stadium,/api/v1/teams/25
+26,14,FC Cincinnati,CIN,Nippert Stadium,/api/v1/teams/26
+6,6,FC Dallas,DAL,Toyota Stadium,/api/v1/teams/6
+3,10,Houston Dynamo,HOU,BBVA Stadium,/api/v1/teams/3
+28,29,Los Angeles FC,LFC,Banc of California Stadium,/api/v1/teams/28
+16,11,New England Revolution,NE,Gillette Stadium,/api/v1/teams/16
+10,5,North Carolina Courage,NCC,WakeMed Soccer Park,/api/v1/teams/10
+19,18,Philadelphia Union,PHI,Talen Energy Stadium,/api/v1/teams/19
+5,17,Sporting Kansas City,SKC,Children's Mercy Park,/api/v1/teams/5
+21,27,Vancouver Whitecaps FC,VAN,BC Place,/api/v1/teams/21
