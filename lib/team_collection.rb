@@ -70,7 +70,7 @@ class TeamCollection
   def winning_percentage(game_collection, team_id)
     winning_percentage = (num_of_all_wins(game_collection, team_id).to_f) / num_of_all_games(game_collection, team_id)
     winning_percentage = 0.0 if winning_percentage.nan?
-    winning_percentage
+    winning_percentage * 100
   end
 
   def total_win_difference_home_and_away(game_collection, team_id)

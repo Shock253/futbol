@@ -107,4 +107,9 @@ class TeamCollectionTest < Minitest::Test
     assert_equal 2, @team_collection.num_of_away_games(@game_collection, @dallas.team_id)
   end
 
+  def test_it_can_calculate_winning_percentage
+    assert_equal 100, @team_collection.winning_percentage(@game_collection, @chicago.team_id)
+    assert_equal 100, @team_collection.winning_percentage(@game_collection, @dallas.team_id)
+  end
+
 end
