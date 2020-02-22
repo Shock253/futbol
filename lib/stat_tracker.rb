@@ -60,44 +60,29 @@ class StatTracker
     count = game_collection.games.count { |game| game.tie? }
     (count.to_f / game_collection.games.length).round(2)
   end
-  
-  def unique_away_team_ids
-    game_collection.games.map do |game|
-      game.away_team_id
-    end.uniq
-  end
-
-  def away_games_by_id
-    unique_away_team_ids.reduce({}) do |sorted_by_id, id|
-        sorted_by_id[id] = game_collection.games.find_all do |game|
-          game.away_team_id == id
-        end
-        sorted_by_id
-      end
-  end
-
-  def away_team_scores_by_id
-    away_games_by_id.transform_values! do |games|
-      games.map do |game|
-        game.away_goals
-      end
-    end
-  end
-
-  def average_away_team_scores_by_id
-    away_team_scores_by_id.transform_values! do |value|
-      value.sum.to_f / value.length
-    end
-  end
-
-  def away_team_id_with_highest_average_score
-    average_away_team_scores_by_id.key(average_away_team_scores_by_id.values.max)
-  end
 
   def highest_scoring_visitor
-    team_collection.teams.find do |team|
-      team.team_id == away_team_id_with_highest_average_score
-    end.teamName
+    team_collection.team_stats(game_collection).max_by do |team, stats|
+      stats[:average_away_goals]
+    end.first
   end
+
+  def winningest_team
+   team_collection.team_stats(game_collection).max_by do |team, stats|
+     stats[:winning_percentage]
+   end.first
+  end
+
+ def best_fans
+   team_collection.team_stats(game_collection).max_by do |team, stats|
+     stats[:winning_difference_percentage]
+   end.first
+ end
+
+ def worst_fans
+   team_collection.team_stats(game_collection).find_all do |team, stats|
+     stats[:more_away_wins] == true
+   end.flat_map { |team| team[0] }
+ end
 
 end
