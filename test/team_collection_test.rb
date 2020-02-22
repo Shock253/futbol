@@ -12,6 +12,7 @@ class TeamCollectionTest < Minitest::Test
     # game_id,season,type,date_time,away_team_id,home_team_id,away_goals,home_goals,venue,venue_link
     # 2016020251,20162017,Regular Season,11/18/16,21,25,2,3,SeatGeek Stadium,/api/v1/venues/null
     @chicago = @team_collection.teams[0]
+    @dallas = @team_collection.teams[2]
     @game1 = @game_collection.games[7]
   end
 
@@ -78,18 +79,22 @@ class TeamCollectionTest < Minitest::Test
 
   def test_it_calculate_num_of_home_wins
     assert_equal 1, @team_collection.num_of_home_wins(@game_collection, @chicago.team_id)
+    assert_equal 3, @team_collection.num_of_home_wins(@game_collection, @dallas.team_id)
   end
 
   def test_it_calculate_num_of_away_wins
     assert_equal 0, @team_collection.num_of_away_wins(@game_collection, @chicago.team_id)
+    assert_equal 2, @team_collection.num_of_away_wins(@game_collection, @dallas.team_id)
   end
 
   def test_it_can_calculate_num_of_all_games
     assert_equal 1, @team_collection.num_of_all_games(@game_collection, @chicago.team_id)
+    assert_equal 5, @team_collection.num_of_all_games(@game_collection, @dallas.team_id)
   end
 
   def test_it_can_calculate_num_of_all_wins
     assert_equal 1, @team_collection.num_of_all_wins(@game_collection, @chicago.team_id)
+    assert_equal 5, @team_collection.num_of_all_wins(@game_collection, @dallas.team_id)
   end
 
 end
