@@ -34,8 +34,6 @@ class StatTrackerTest < Minitest::Test
     assert_equal 2, @stat_tracker.biggest_blowout
   end
 
-
-
   def test_calculates_percentage_home_wins
     assert_equal 0.40, @stat_tracker.percentage_home_wins
   end
@@ -46,6 +44,12 @@ class StatTrackerTest < Minitest::Test
 
   def test_calculates_percentage_ties
     assert_equal 0.10, @stat_tracker.percentage_ties
+  end
+
+  def test_it_can_show_highest_scoring_visitor
+    # Name of the team with the highest average score per game across
+    # all seasons when they are away.	String
+    assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor
   end
 
 end
