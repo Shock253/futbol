@@ -124,4 +124,17 @@ class TeamCollectionTest < Minitest::Test
     assert_equal true, @team_collection.more_away_wins?(@game_collection, @los_angeles.team_id)
   end
 
+  def test_it_can_create_team_stats
+    expected = {
+      :total_games=>1,
+      :games_won=>1,
+      :home_games_won=>1,
+      :away_games_won=>0,
+      :winning_percentage=>100.0,
+      :winning_difference_percentage=>0.0,
+      :more_away_wins=>false
+    }
+    assert_equal expected, @team_collection.team_stats(@game_collection)["Chicago Red Stars"]
+  end
+
 end
