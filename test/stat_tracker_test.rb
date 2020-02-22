@@ -47,8 +47,6 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_can_show_highest_scoring_visitor
-    # Name of the team with the highest average score per game across
-    # all seasons when they are away.	String
     assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor
   end
 
@@ -58,10 +56,10 @@ class StatTrackerTest < Minitest::Test
 
   def test_it_can_calculate_best_fans
     assert_equal "Chicago Red Stars", @stat_tracker.best_fans
+
   end
-  
+
   def test_it_can_calculate_worst_fans
     assert_equal ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"], @stat_tracker.worst_fans
   end
-
 end
