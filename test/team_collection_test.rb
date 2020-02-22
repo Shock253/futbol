@@ -8,8 +8,11 @@ class TeamCollectionTest < Minitest::Test
   def setup
     @game_collection = GameCollection.new("./test/fixtures/games_truncated.csv")
     @team_collection = TeamCollection.new("./test/fixtures/teams_truncated.csv")
+    # Chicago Team ID = 25
+    # game_id,season,type,date_time,away_team_id,home_team_id,away_goals,home_goals,venue,venue_link
+    # 2016020251,20162017,Regular Season,11/18/16,21,25,2,3,SeatGeek Stadium,/api/v1/venues/null
     @chicago = @team_collection.teams[0]
-    @game = @game_collection.games[7]
+    @game1 = @game_collection.games[7]
   end
 
   def test_it_exists
@@ -48,6 +51,7 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_can_find_team_by_id
+    skip
     generic_team = mock('team')
     generic_team.stubs(:team_id).returns(2)
     specific_team = mock('specific')
@@ -61,7 +65,15 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_it_can_get_all_games_by_team
-    assert_equal [@game], @team_collection.all_games_by_team(@game_collection, @chicago.team_id)
+    assert_equal [@game1], @team_collection.all_games_by_team(@game_collection, @chicago.team_id)
+  end
+
+  def test_it_can_get_home_games_by_team
+    assert_equal [@game1], @team_collection.home_games_by_team(@game_collection, @chicago.team_id)
+  end
+
+  def test_it_can_get_away_games_by_team
+    assert_equal [], @team_collection.away_games_by_team(@game_collection, @chicago.team_id)
   end
 
 end
