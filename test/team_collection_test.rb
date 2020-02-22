@@ -1,8 +1,16 @@
 require "./test/test_helper"
 require "mocha/minitest"
 require "./lib/team_collection"
+require "./lib/game_collection"
 
 class TeamCollectionTest < Minitest::Test
+
+  def setup
+    @game_collection = GameCollection.new("./test/fixtures/games_truncated.csv")
+    @team_collection = TeamCollection.new("./test/fixtures/teams_truncated.csv")
+    @chicago = @team_collection.teams[0]
+    @game = @game_collection.games[7]
+  end
 
   def test_it_exists
     TeamCollection.stubs(:create_teams).returns(Array.new(32, mock('team')))
@@ -24,7 +32,6 @@ class TeamCollectionTest < Minitest::Test
     team_a = team_collection.teams.first
     team_z = team_collection.teams.last
 
-
     assert_equal 1,                       team_a.team_id
     assert_equal 23,                      team_a.franchiseId
     assert_equal "Atlanta United",        team_a.teamName
@@ -38,7 +45,6 @@ class TeamCollectionTest < Minitest::Test
     assert_equal "CCS",                   team_z.abbreviation
     assert_equal "Mapfre Stadium",        team_z.stadium
     assert_equal "/api/v1/teams/53",      team_z.link
-
   end
 
   def test_can_find_team_by_id
@@ -52,6 +58,10 @@ class TeamCollectionTest < Minitest::Test
     stubbed_team_collection = TeamCollection.new("./data/teams.csv")
 
     assert_equal specific_team, stubbed_team_collection.find_team_by_id(1)
+  end
+
+  def test_it_can_get_all_games_by_team
+    assert_equal [@game], @team_collection.all_games_by_team(@game_collection, @chicago.team_id)
   end
 
 end
