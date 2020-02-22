@@ -60,7 +60,7 @@ class StatTracker
     count = game_collection.games.count { |game| game.tie? }
     (count.to_f / game_collection.games.length).round(2)
   end
-
+  
   def unique_away_team_ids
     game_collection.games.map do |game|
       game.away_team_id
