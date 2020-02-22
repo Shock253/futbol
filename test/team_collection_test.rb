@@ -81,7 +81,7 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_it_calculate_num_of_away_wins
-    skip
+    assert_equal 0, @team_collection.num_of_away_wins(@game_collection, @chicago.team_id)
   end
 
 end
