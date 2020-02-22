@@ -1,0 +1,11 @@
+game_id,season,type,date_time,away_team_id,home_team_id,away_goals,home_goals,venue,venue_link
+2012030221,20122013,Postseason,5/16/13,3,6,2,3,Toyota Stadium,/api/v1/venues/null
+2012030222,20122013,Postseason,5/19/13,3,6,2,3,Toyota Stadium,/api/v1/venues/null
+2012030223,20122013,Postseason,5/21/13,6,3,2,1,BBVA Stadium,/api/v1/venues/null
+2012030224,20122013,Postseason,5/23/13,6,3,3,2,BBVA Stadium,/api/v1/venues/null
+2012030225,20122013,Postseason,5/25/13,3,6,1,3,Toyota Stadium,/api/v1/venues/null
+2017020704,20172018,Regular Season,1/19/18,5,26,3,1,Nippert Stadium,/api/v1/venues/null
+2017020726,20172018,Regular Season,1/23/18,21,10,2,2,WakeMed Soccer Park,/api/v1/venues/null
+2016020251,20162017,Regular Season,11/18/16,21,25,2,3,SeatGeek Stadium,/api/v1/venues/null
+2015030185,20152016,Postseason,4/23/16,28,26,4,3,Nippert Stadium,/api/v1/venues/null
+2013030161,20132014,Postseason,4/18/14,16,19,3,2,Talen Energy Stadium,/api/v1/venues/null
