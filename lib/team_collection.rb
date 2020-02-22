@@ -77,9 +77,11 @@ class TeamCollection
     home_wins = num_of_home_wins(game_collection, team_id)
     away_wins = num_of_away_wins(game_collection, team_id)
 
-    away_percentage = home_wins.to_f / num_of_home_games(game_collection, team_id)
-    home_percentage = away_wins.to_f / num_of_away_games(game_collection, team_id)
+    home_percentage = home_wins.to_f / num_of_home_games(game_collection, team_id)
+    away_percentage = away_wins.to_f / num_of_away_games(game_collection, team_id)
+
     total_win_difference = (away_percentage - home_percentage).abs
+
     total_win_difference = 0.0 if total_win_difference.nan?
     total_win_difference
   end

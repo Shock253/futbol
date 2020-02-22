@@ -112,4 +112,9 @@ class TeamCollectionTest < Minitest::Test
     assert_equal 100, @team_collection.winning_percentage(@game_collection, @dallas.team_id)
   end
 
+  def test_it_can_calculate_total_win_difference_home_and_away
+    assert_equal 0.0, @team_collection.total_win_difference_home_and_away(@game_collection, @chicago.team_id)
+    assert_equal 0.0, @team_collection.total_win_difference_home_and_away(@game_collection, @dallas.team_id)
+  end
+
 end
