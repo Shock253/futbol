@@ -84,4 +84,8 @@ class TeamCollectionTest < Minitest::Test
     assert_equal 0, @team_collection.num_of_away_wins(@game_collection, @chicago.team_id)
   end
 
+  def test_it_can_calculate_num_of_all_games
+    assert_equal 1, @team_collection.num_of_all_games(@game_collection, @chicago.team_id)
+  end
+
 end

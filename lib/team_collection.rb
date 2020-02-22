@@ -41,14 +41,14 @@ class TeamCollection
     end
   end
 
-  def num_of_away_wins(game_collection, team_id)
-    away_games = away_games_by_team(game_collection, team_id)
-    away_games.count { |game| game.away_win? }
-  end
-
   def num_of_home_wins(game_collection, team_id)
     home_games = home_games_by_team(game_collection, team_id)
     home_games.count { |game| game.home_win? }
+  end
+
+  def num_of_away_wins(game_collection, team_id)
+    away_games = away_games_by_team(game_collection, team_id)
+    away_games.count { |game| game.away_win? }
   end
 
   def num_of_all_games(game_collection, team_id)
