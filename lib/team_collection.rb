@@ -99,7 +99,7 @@ class TeamCollection
     end
     away_games = num_of_away_games(game_collection, team_id)
     average = 0
-    average = total_goals / away_games if away_games != 0
+    average = total_goals.to_f / away_games if away_games != 0
     average
   end
 
