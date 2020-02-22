@@ -13,6 +13,7 @@ class TeamCollectionTest < Minitest::Test
     # 2016020251,20162017,Regular Season,11/18/16,21,25,2,3,SeatGeek Stadium,/api/v1/venues/null
     @chicago = @team_collection.teams[0]
     @dallas = @team_collection.teams[2]
+    @los_angeles = @team_collection.teams[4]
     @game1 = @game_collection.games[7]
   end
 
@@ -115,6 +116,12 @@ class TeamCollectionTest < Minitest::Test
   def test_it_can_calculate_total_win_difference_home_and_away
     assert_equal 0.0, @team_collection.total_win_difference_home_and_away(@game_collection, @chicago.team_id)
     assert_equal 0.0, @team_collection.total_win_difference_home_and_away(@game_collection, @dallas.team_id)
+  end
+
+  def test_it_can_calculate_winning_away_percentage
+    assert_equal false, @team_collection.more_away_wins?(@game_collection, @chicago.team_id)
+    assert_equal false, @team_collection.more_away_wins?(@game_collection, @dallas.team_id)
+    assert_equal true, @team_collection.more_away_wins?(@game_collection, @los_angeles.team_id)
   end
 
 end

@@ -86,7 +86,7 @@ class TeamCollection
     total_win_difference
   end
 
-  def winning_away_percentage(game_collection, team_id)
+  def more_away_wins?(game_collection, team_id)
     home_wins = num_of_home_wins(game_collection, team_id)
     away_wins = num_of_away_wins(game_collection, team_id)
 
@@ -102,7 +102,7 @@ class TeamCollection
         away_games_won: num_of_away_wins(game_collection, team.team_id),
         winning_percentage: winning_percentage(game_collection, team.team_id)*100,
         winning_difference_percentage: total_win_difference_home_and_away(game_collection, team.team_id),
-        better_away_percentage: winning_away_percentage(game_collection, team.team_id)
+        more_away_wins: more_away_wins?(game_collection, team.team_id)
       }
       team_stats
     end

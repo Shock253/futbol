@@ -75,7 +75,7 @@ class StatTracker
 
   def worst_fans
     team_collection.team_stats(game_collection).find_all do |team, stats|
-      stats[:better_away_percentage] == true
+      stats[:more_away_wins] == true
     end.flat_map { |team| team[0] }
   end
 end
