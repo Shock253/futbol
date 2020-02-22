@@ -76,4 +76,12 @@ class TeamCollectionTest < Minitest::Test
     assert_equal [], @team_collection.away_games_by_team(@game_collection, @chicago.team_id)
   end
 
+  def test_it_calculate_num_of_home_wins
+    assert_equal 1, @team_collection.num_of_home_wins(@game_collection, @chicago.team_id)
+  end
+
+  def test_it_calculate_num_of_away_wins
+    skip
+  end
+
 end
