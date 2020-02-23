@@ -49,6 +49,10 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_show_highest_scoring_visitor
     assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor
   end
+
+  def test_it_can_show_highest_scoring_home_team
+    assert_equal "Chicago Red Stars", @stat_tracker.highest_scoring_home_team
+  end
 # some of the tests are returning teams that have limited data in the truncated file; how do we fix that?
   def test_it_can_show_lowest_scoring_visitor
     assert_equal "Chicago Red Stars", @stat_tracker.lowest_scoring_visitor
