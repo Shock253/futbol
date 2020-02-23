@@ -1,7 +1,7 @@
 class Team
   attr_reader :team_id,
               :franchiseId,
-              :teamName,
+              :team_name,
               :abbreviation,
               :stadium,
               :link
@@ -14,4 +14,12 @@ class Team
     @stadium        = team_params[:stadium]
     @link           = team_params[:link]
   end
+
+  def best_offense
+		teams.max_by(&:average_goals_total).team_name
+  end
+
+	def worst_offense
+		teams.min_by(&:average_goals_total).team_name
+	end
 end
