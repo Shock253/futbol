@@ -79,6 +79,12 @@ class StatTracker
     end.first
   end
 
+  def lowest_scoring_home_team
+    team_collection.team_stats(game_collection).min_by do |team, stats|
+      stats[:average_home_goals]
+    end.first
+  end
+
   def winningest_team
    team_collection.team_stats(game_collection).max_by do |team, stats|
      stats[:winning_percentage]

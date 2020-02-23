@@ -58,6 +58,10 @@ class StatTrackerTest < Minitest::Test
     assert_equal "Chicago Red Stars", @stat_tracker.lowest_scoring_visitor
   end
 
+  def test_it_can_show_lowest_scoring_home_team
+    assert_equal "Los Angeles FC", @stat_tracker.lowest_scoring_home_team
+  end
+
   def test_it_can_calculate_winningest_team
     assert_equal "Chicago Red Stars", @stat_tracker.winningest_team
   end
