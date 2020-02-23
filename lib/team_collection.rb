@@ -98,8 +98,18 @@ class TeamCollection
       game.away_goals
     end
     away_games = num_of_away_games(game_collection, team_id)
-    average = 0
+    average = 0.0
     average = total_goals.to_f / away_games if away_games != 0
+    average
+  end
+
+  def average_home_goals(game_collection, team_id)
+    total_goals = home_games_by_team(game_collection, team_id).sum do | game |
+      game.home_goals
+    end
+    home_games = num_of_home_games(game_collection, team_id)
+    average = 0.0
+    average = total_goals.to_f / home_games if home_games != 0
     average
   end
 
@@ -110,6 +120,7 @@ class TeamCollection
         games_won: num_of_all_wins(game_collection, team.team_id),
         home_games_won: num_of_home_wins(game_collection, team.team_id),
         average_away_goals: average_away_goals(game_collection, team.team_id),
+        average_home_goals: average_home_goals(game_collection, team.team_id),
         away_games_won: num_of_away_wins(game_collection, team.team_id),
         winning_percentage: winning_percentage(game_collection, team.team_id),
         winning_difference_percentage: total_win_difference_home_and_away(game_collection, team.team_id),
