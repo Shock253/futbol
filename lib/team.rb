@@ -15,6 +15,14 @@ class Team
     @link           = team_params[:link]
   end
 
+  def all_games_played
+    home_games + away_games
+  end
+
+  def total_games_played
+    home_games.length + away_games.length
+  end
+
   def average_home_goals(game_collection, team_id)
     total_goals = home_games_by_team(game_collection, team_id).sum do | game |
       game.home_goals
@@ -39,7 +47,7 @@ class Team
     return 0.0 if collection.length == 0
     away_goals_against = collection.find_all {|game| game.home_team_id == team_id}
     home_goals_against = collection.find_all {|game| game.away_team_id == team_id}
-    ((away_goals_against.sum(&:away_goals).to_f + home_goals_against.sum(&:home_goals)))
+    ((away_goals_against.sum(away_goals).to_f + home_goals_against.sum(home_goals)))
   end
 
   def average_total_goals
