@@ -53,7 +53,6 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_can_find_team_by_id
-    skip
     generic_team = mock('team')
     generic_team.stubs(:team_id).returns(2)
     specific_team = mock('specific')
@@ -124,11 +123,21 @@ class TeamCollectionTest < Minitest::Test
     assert_equal true, @team_collection.more_away_wins?(@game_collection, @los_angeles.team_id)
   end
 
+  def test_it_can_average_away_goals
+    assert_equal 4, @team_collection.average_away_goals(@game_collection, @los_angeles.team_id)
+  end
+
+  def test_it_can_average_home_goals
+    assert_equal 3, @team_collection.average_home_goals(@game_collection, @dallas.team_id)
+  end
+
   def test_it_can_create_team_stats
     expected = {
       :total_games=>1,
       :games_won=>1,
       :home_games_won=>1,
+      :average_away_goals=>0.0,
+      :average_home_goals=>3.0,
       :away_games_won=>0,
       :winning_percentage=>100.0,
       :winning_difference_percentage=>0.0,

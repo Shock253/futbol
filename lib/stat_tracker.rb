@@ -61,21 +61,46 @@ class StatTracker
     (count.to_f / game_collection.games.length).round(2)
   end
 
+  def highest_scoring_visitor
+    team_collection.team_stats(game_collection).max_by do |team, stats|
+      stats[:average_away_goals]
+    end.first
+  end
+
+  def highest_scoring_home_team
+    team_collection.team_stats(game_collection).max_by do |team, stats|
+      stats[:average_home_goals]
+    end.first
+  end
+
+  def lowest_scoring_visitor
+    team_collection.team_stats(game_collection).min_by do |team, stats|
+      stats[:average_away_goals]
+    end.first
+  end
+
+  def lowest_scoring_home_team
+    team_collection.team_stats(game_collection).min_by do |team, stats|
+      stats[:average_home_goals]
+    end.first
+  end
+
   def winningest_team
-    team_collection.team_stats(game_collection).max_by do |team, stats|
-      stats[:winning_percentage]
-    end.first
+   team_collection.team_stats(game_collection).max_by do |team, stats|
+     stats[:winning_percentage]
+   end.first
   end
 
-  def best_fans
-    team_collection.team_stats(game_collection).max_by do |team, stats|
-      stats[:winning_difference_percentage]
-    end.first
-  end
+ def best_fans
+   team_collection.team_stats(game_collection).max_by do |team, stats|
+     stats[:winning_difference_percentage]
+   end.first
+ end
 
-  def worst_fans
-    team_collection.team_stats(game_collection).find_all do |team, stats|
-      stats[:more_away_wins] == true
-    end.flat_map { |team| team[0] }
-  end
+ def worst_fans
+   team_collection.team_stats(game_collection).find_all do |team, stats|
+     stats[:more_away_wins] == true
+   end.flat_map { |team| team[0] }
+ end
+
 end
