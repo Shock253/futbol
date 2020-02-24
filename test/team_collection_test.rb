@@ -53,7 +53,6 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_can_find_team_by_id
-    skip
     generic_team = mock('team')
     generic_team.stubs(:team_id).returns(2)
     specific_team = mock('specific')
