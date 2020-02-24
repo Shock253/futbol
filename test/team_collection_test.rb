@@ -53,16 +53,18 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_can_find_team_by_id
-    generic_team = mock('team')
-    generic_team.stubs(:team_id).returns(2)
-    specific_team = mock('specific')
-    specific_team.stubs(:team_id).returns(1)
-    teams = Array.new(32, generic_team)
-    teams[10] = specific_team
-    TeamCollection.stubs(:create_teams).returns(teams)
+
     stubbed_team_collection = TeamCollection.new("./data/teams.csv")
 
-    assert_equal specific_team, stubbed_team_collection.find_team_by_id(1)
+    specific_team = stubbed_team_collection.find_team_by_id(53)
+
+    assert_equal 53,                      specific_team.team_id
+    assert_equal 28,                      specific_team.franchiseId
+    assert_equal "Columbus Crew SC",      specific_team.teamName
+    assert_equal "CCS",                   specific_team.abbreviation
+    assert_equal "Mapfre Stadium",        specific_team.stadium
+    assert_equal "/api/v1/teams/53",      specific_team.link
+
   end
 
   def test_it_can_get_all_games_by_team
