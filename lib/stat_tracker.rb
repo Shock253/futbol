@@ -151,4 +151,12 @@ class StatTracker
     end.goals
   end
 
+  def winningest_coach(season)
+    @game_teams.winningest_coach(@games, season)
+  end
+
+  def worst_coach(season)
+    @game_teams.worst_coach(@game, season)
+  end
+
 end
