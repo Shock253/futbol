@@ -19,20 +19,20 @@ class TeamCollectionTest < Minitest::Test
 
   def test_it_exists
     TeamCollection.stubs(:create_teams).returns(Array.new(32, mock('team')))
-    stubbed_team_collection = TeamCollection.new("./data/teams.csv", @game_collection)
+    stubbed_team_collection = TeamCollection.new("./data/teams.csv", @game_collection.games)
     assert_instance_of TeamCollection, stubbed_team_collection
   end
 
   def test_it_has_attributes
     TeamCollection.stubs(:create_teams).returns(Array.new(32, mock('team')))
-    stubbed_team_collection = TeamCollection.new("./data/teams.csv", @game_collection)
+    stubbed_team_collection = TeamCollection.new("./data/teams.csv", @game_collection.games)
 
     assert_instance_of Array, stubbed_team_collection.teams
     assert_equal 32, stubbed_team_collection.teams.length
   end
 
   def test_csv_loads
-    team_collection = TeamCollection.new("./data/teams.csv", @game_collection)
+    team_collection = TeamCollection.new("./data/teams.csv", @game_collection.games)
 
     atlanta = team_collection.teams.first
     columbus = team_collection.teams.last
@@ -53,7 +53,7 @@ class TeamCollectionTest < Minitest::Test
   end
 
   def test_can_find_team_by_id
-    stubbed_team_collection = TeamCollection.new("./data/teams.csv", @game_collection)
+    stubbed_team_collection = TeamCollection.new("./data/teams.csv", @game_collection.games)
     columbus = stubbed_team_collection.find_team_by_id(53)
 
     assert_equal 53, columbus.team_id

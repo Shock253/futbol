@@ -8,7 +8,7 @@ class TeamCollection
   def initialize(csv_file_path, games)
     @teams = create_teams(csv_file_path)
     @games = games
-    @team_stats = {}
+    @team_stats = generate_team_stats
   end
 
   def create_teams(csv_file_path)
@@ -64,6 +64,26 @@ class TeamCollection
 
   def num_of_away_games(team_id)
     away_games_by_team(team_id).length
+  end
+
+  def average_away_goals(team_id)
+    total_goals = away_games_by_team(team_id).sum do | game |
+      game.away_goals
+    end
+    away_games = num_of_away_games(team_id)
+    average = 0.0
+    average = total_goals.to_f / away_games if away_games != 0
+    average
+  end
+
+  def average_home_goals(team_id)
+    total_goals = home_games_by_team(team_id).sum do | game |
+      game.home_goals
+    end
+    home_games = num_of_home_games(team_id)
+    average = 0.0
+    average = total_goals.to_f / home_games if home_games != 0
+    average
   end
 
   def average_goals_per_team(team_id)
@@ -134,107 +154,59 @@ class TeamCollection
     away_wins.to_f > home_wins.to_f
   end
 
-  def average_away_goals(team_id)
-    total_goals = away_games_by_team(team_id).sum do | game |
-      game.away_goals
-    end
-    away_games = num_of_away_games(team_id)
-    average = 0.0
-    average = total_goals.to_f / away_games if away_games != 0
-    average
-  end
-
-  def average_home_goals(team_id)
-    total_goals = home_games_by_team(team_id).sum do | game |
-      game.home_goals
-    end
-    home_games = num_of_home_games(team_id)
-    average = 0.0
-    average = total_goals.to_f / home_games if home_games != 0
-    average
-  end
-
   def highest_scoring_visitor
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        average_away_goals: average_away_goals(team.team_id),
-      }
-      team_stats
-    end
-    team_stats.max_by do |team, stats|
+    @team_stats.max_by do |team, stats|
       stats[:average_away_goals]
     end.first
   end
 
   def highest_scoring_home_team
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        average_home_goals: average_home_goals(team.team_id),
-      }
-      team_stats
-    end
-    team_stats.max_by do |team, stats|
+    @team_stats.max_by do |team, stats|
       stats[:average_home_goals]
     end.first
   end
 
   def lowest_scoring_home_team
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        average_home_goals: average_home_goals(team.team_id),
-      }
-      team_stats
-    end
-    team_stats.min_by do |team, stats|
+    @team_stats.min_by do |team, stats|
       stats[:average_home_goals]
     end.first
   end
 
   def lowest_scoring_visitor
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        average_away_goals: average_away_goals(team.team_id),
-      }
-      team_stats
-    end
-    team_stats.min_by do |team, stats|
+    @team_stats.min_by do |team, stats|
       stats[:average_away_goals]
     end.first
   end
 
   def winningest_team
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        winning_percentage: winning_percentage(team.team_id),
-      }
-      team_stats
-    end
-    team_stats.max_by do |team, stats|
+    @team_stats.max_by do |team, stats|
       stats[:winning_percentage]
     end.first
   end
 
   def best_fans
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        winning_difference_percentage: total_win_difference_home_and_away(team.team_id),
-      }
-      team_stats
-    end
-    team_stats.max_by do |team, stats|
+    @team_stats.max_by do |team, stats|
       stats[:winning_difference_percentage]
     end.first
   end
 
   def worst_fans
-    team_stats = @teams.reduce({}) do | team_stats, team |
-      team_stats[team.team_name] = {
-        more_away_wins: more_away_wins?(team.team_id)
-      }
-      team_stats
-    end
-    team_stats.find_all do |team, stats|
+    @team_stats.find_all do |team, stats|
       stats[:more_away_wins] == true
     end.flat_map { |team| team[0] }
   end
+
+  def generate_team_stats
+    @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
+        average_home_goals: average_home_goals(team.team_id),
+        average_away_goals: average_away_goals(team.team_id),
+        more_away_wins: more_away_wins?(team.team_id),
+        winning_percentage: winning_percentage(team.team_id),
+        winning_difference_percentage: total_win_difference_home_and_away(team.team_id)
+      }
+      team_stats
+    end
+  end
+
 end
