@@ -7,7 +7,7 @@ class GameTest < Minitest::Test
 
   def setup
     game_data_template = {
-      id:           2012030221,
+      game_id:           2012030221,
       season:       20122013,
       type:         "Postseason",
       date_time:    "5/16/13",
@@ -43,7 +43,7 @@ class GameTest < Minitest::Test
 
   def test_it_has_attributes
 
-    assert_equal 2012030221,            @game1.id
+    assert_equal 2012030221,            @game1.game_id
     assert_equal 20122013,              @game1.season
     assert_equal "Postseason",          @game1.type
     assert_equal "5/16/13",             @game1.date_time

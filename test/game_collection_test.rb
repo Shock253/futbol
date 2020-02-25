@@ -31,7 +31,7 @@ class GameCollectionTest < Minitest::Test
     assert_equal "5/16/13", game1.date_time
     assert_equal 3, game1.home_goals
     assert_equal 6, game1.home_team_id
-    assert_equal 0, game1.id
+    assert_equal 2012030221, game1.game_id
     assert_equal "20122013", game1.season
     assert_equal "Postseason", game1.type
 
@@ -41,7 +41,7 @@ class GameCollectionTest < Minitest::Test
     assert_equal "4/18/14", game2.date_time
     assert_equal 2, game2.home_goals
     assert_equal 19, game2.home_team_id
-    assert_equal 0, game2.id
+    assert_equal 2013030161, game2.game_id
     assert_equal "20132014", game2.season
     assert_equal "Postseason", game2.type
   end
