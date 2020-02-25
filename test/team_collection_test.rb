@@ -86,24 +86,9 @@ class TeamCollectionTest < Minitest::Test
     assert_equal 2, @team_collection.num_of_away_wins(@dallas.team_id)
   end
 
-  def test_it_can_calculate_num_of_all_games
-    assert_equal 1, @team_collection.num_of_all_games(@chicago.team_id)
-    assert_equal 5, @team_collection.num_of_all_games(@dallas.team_id)
-  end
-
   def test_it_can_calculate_num_of_all_wins
     assert_equal 1, @team_collection.num_of_all_wins(@chicago.team_id)
     assert_equal 5, @team_collection.num_of_all_wins(@dallas.team_id)
-  end
-
-  def test_it_can_calculate_num_of_home_games
-    assert_equal 1, @team_collection.num_of_home_games(@chicago.team_id)
-    assert_equal 3, @team_collection.num_of_home_games(@dallas.team_id)
-  end
-
-  def test_it_can_calculate_num_of_away_games
-    assert_equal 0, @team_collection.num_of_away_games(@chicago.team_id)
-    assert_equal 2, @team_collection.num_of_away_games(@dallas.team_id)
   end
 
   def test_it_can_calculate_winning_percentage
