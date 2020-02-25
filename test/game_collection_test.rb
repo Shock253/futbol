@@ -45,4 +45,55 @@ class GameCollectionTest < Minitest::Test
     assert_equal "20132014", game2.season
     assert_equal "Postseason", game2.type
   end
+
+  def test_it_can_calculate_highest_total_score
+    assert_equal 7, @game_collection.highest_total_score
+  end
+
+  def test_it_can_calculate_lowest_total_score
+    assert_equal 3, @game_collection.lowest_total_score
+  end
+
+  def test_it_can_calculate_biggest_blowout
+    assert_equal 2, @game_collection.biggest_blowout
+  end
+
+  def test_it_can_calculate_percentage_home_wins
+    assert_equal 0.4, @game_collection.percentage_home_wins
+  end
+
+  def test_it_can_calculate_percentage_visitor_wins
+    assert_equal 0.5, @game_collection.percentage_visitor_wins
+  end
+
+  def test_it_can_calculate_percentage_ties
+    assert_equal 0.1, @game_collection.percentage_ties
+  end
+
+  def test_it_calculate_count_of_games_by_season
+    expected = {
+      "20122013"=>5,
+      "20172018"=>2,
+      "20162017"=>1,
+      "20152016"=>1,
+      "20132014"=>1
+    }
+    assert_equal expected, @game_collection.count_of_games_by_season
+  end
+
+  def test_it_calculate_average_goals_per_game
+    assert_equal 4.7, @game_collection.average_goals_per_game
+  end
+
+  def test_it_calculate_average_goals_by_season
+    expected = {
+      "20122013"=>4.4,
+      "20172018"=>4.0,
+      "20162017"=>5.0,
+      "20152016"=>7.0,
+      "20132014"=>5.0
+    }
+    assert_equal expected, @game_collection.average_goals_by_season
+  end
+
 end
