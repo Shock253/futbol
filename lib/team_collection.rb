@@ -18,25 +18,23 @@ class TeamCollection
   end
 
   def find_team_by_id(id)
-    @teams.find do |team|
-      team.team_id == id
-    end
+    @teams.find { |team| team.team_id == id }
   end
 
   def all_games_by_team(game_collection, team_id)
-    game_collection.games.find_all do |game|
+    game_collection.find_all do |game|
       game.home_team_id == team_id || game.away_team_id == team_id
     end
   end
 
   def home_games_by_team(game_collection, team_id)
-    game_collection.games.find_all do |game|
+    game_collection.find_all do |game|
       game.home_team_id == team_id
     end
   end
 
   def away_games_by_team(game_collection, team_id)
-    game_collection.games.find_all do |game|
+    game_collection.find_all do |game|
       game.away_team_id == team_id
     end
   end
@@ -116,12 +114,12 @@ class TeamCollection
   def team_stats(game_collection)
     @teams.reduce({}) do | team_stats, team |
       team_stats[team.teamName] = {
-        total_games: num_of_all_games(game_collection, team.team_id),
-        games_won: num_of_all_wins(game_collection, team.team_id),
-        home_games_won: num_of_home_wins(game_collection, team.team_id),
+        # total_games: num_of_all_games(game_collection, team.team_id),
+        # games_won: num_of_all_wins(game_collection, team.team_id),
+        # home_games_won: num_of_home_wins(game_collection, team.team_id),
         average_away_goals: average_away_goals(game_collection, team.team_id),
         average_home_goals: average_home_goals(game_collection, team.team_id),
-        away_games_won: num_of_away_wins(game_collection, team.team_id),
+        # away_games_won: num_of_away_wins(game_collection, team.team_id),
         winning_percentage: winning_percentage(game_collection, team.team_id),
         winning_difference_percentage: total_win_difference_home_and_away(game_collection, team.team_id),
         more_away_wins: more_away_wins?(game_collection, team.team_id)

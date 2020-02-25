@@ -46,6 +46,10 @@ class StatTrackerTest < Minitest::Test
     assert_equal 0.10, @stat_tracker.percentage_ties
   end
 
+  # test count_of_games_by_season
+  # test average_goals_per_game
+  # test average_goals_by_season
+
   def test_it_can_show_highest_scoring_visitor
     assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor
   end
@@ -68,10 +72,10 @@ class StatTrackerTest < Minitest::Test
 
   def test_it_can_calculate_best_fans
     assert_equal "Chicago Red Stars", @stat_tracker.best_fans
-
   end
 
   def test_it_can_calculate_worst_fans
-    assert_equal ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"], @stat_tracker.worst_fans
+    expected = ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"]
+    assert_equal expected, @stat_tracker.worst_fans
   end
 end

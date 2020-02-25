@@ -10,7 +10,6 @@ class Game
               :venue,
               :venue_link
 
-
   def initialize(game_params)
     @id             = game_params[:id].to_i
     @season         = game_params[:season]
@@ -22,6 +21,10 @@ class Game
     @home_goals     = game_params[:home_goals].to_i
     @venue          = game_params[:venue]
     @venue_link     = game_params[:venue_link]
+  end
+
+  def total_score
+   @away_goals + @home_goals
   end
 
   def total_goals
