@@ -7,7 +7,7 @@ class StatTrackerTest < Minitest::Test
   def setup
     locations = {
       games: "./test/fixtures/games_truncated.csv",
-      teams: './data/teams.csv',
+      teams: "./test/fixtures/teams_truncated.csv",
       game_teams: './data/game_teams.csv'
     }
     @stat_tracker = StatTracker.from_csv(locations)
@@ -71,4 +71,52 @@ class StatTrackerTest < Minitest::Test
     assert_equal expected_hash, @stat_tracker.average_goals_by_season
   end
 
+  def test_calculates_count_of_teams
+    assert_equal 10, @stat_tracker.count_of_teams
+  end
+
+  def test_best_offense
+    assert_equal "FC Dallas", @stat_tracker.best_offense
+  end
+
+  def test_worst_offense
+    assert_equal "FC Cincinnati", @stat_tracker.worst_offense
+  end
+
+  def test_best_defense
+    assert_equal "Sporting Kansas City", @stat_tracker.best_defense
+  end
+
+  def test_worst_defense
+    assert_equal "FC Cincinnati", @stat_tracker.worst_defense
+  end
+
+  def test_it_can_show_highest_scoring_visitor
+    assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor
+  end
+
+  def test_it_can_show_highest_scoring_home_team
+    assert_equal "Chicago Red Stars", @stat_tracker.highest_scoring_home_team
+  end
+
+  def test_it_can_show_lowest_scoring_visitor
+    assert_equal "Chicago Red Stars", @stat_tracker.lowest_scoring_visitor
+  end
+
+  def test_it_can_show_lowest_scoring_home_team
+    assert_equal "Los Angeles FC", @stat_tracker.lowest_scoring_home_team
+  end
+
+  def test_it_can_calculate_winningest_team
+    assert_equal "Chicago Red Stars", @stat_tracker.winningest_team
+  end
+
+  def test_it_can_calculate_best_fans
+    assert_equal "Chicago Red Stars", @stat_tracker.best_fans
+  end
+
+  def test_it_can_calculate_worst_fans
+    expected = ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"]
+    assert_equal expected, @stat_tracker.worst_fans
+  end
 end
