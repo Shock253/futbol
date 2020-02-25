@@ -75,10 +75,25 @@ class StatTrackerTest < Minitest::Test
     assert_equal 10, @stat_tracker.count_of_teams
   end
 
-  #best_offense
-  #worst_offense
-  #best_defense
-  #worst_defense
+  def test_find_team_name
+    assert_equal "FC Dallas", @stat_tracker.find_team_name(6)
+  end
+
+  def test_best_offense
+    assert_equal "FC Dallas", @stat_tracker.best_offense
+  end
+
+  def test_worst_offense
+    assert_equal "North Carolina Courage", @stat_tracker.worst_offense
+  end
+
+  def test_best_defense
+    assert_equal "Sporting Kansas City", @stat_tracker.best_defense
+  end
+
+  def test_worst_defense
+    assert_equal "Houston Dynamo", @stat_tracker.worst_defense
+  end
 
   def test_it_can_show_highest_scoring_visitor
     assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor

@@ -56,10 +56,64 @@ class StatTracker
     @team_stats.teams.length
   end
 
-  #best_offense
-  #worst_offense
-  #best_defense
-  #worst_defense
+  def find_team_name(team_id)
+      @team_stats.teams.find do |team|
+        team.team_id == team_id
+      end.team_name
+    end
+
+    def best_offense
+        team_goal_averages = @game_stats.games.reduce(Hash.new(0)) do |acc, game|
+        acc[game.away_team_id] += (game.away_goals.to_f / @game_stats.games.length).round(2)
+        acc[game.home_team_id] += (game.home_goals.to_f / @game_stats.games.length).round(2)
+        acc
+      end
+      highest_goals_team = team_goal_averages.max_by do |team_id, average_goals|
+        average_goals
+      end
+      highest_goals_team_id = highest_goals_team[0]
+      find_team_name(highest_goals_team_id)
+    end
+
+    def worst_offense
+        team_goal_averages = @game_stats.games.reduce(Hash.new(0)) do |acc, game|
+        acc[game.away_team_id] += (game.away_goals.to_f / @game_stats.games.length).round(2)
+        acc[game.home_team_id] += (game.home_goals.to_f / @game_stats.games.length).round(2)
+        acc
+      end
+      lowest_goals_team = team_goal_averages.min_by do |team_id, average_goals|
+        average_goals
+      end
+      highest_goals_team_id = lowest_goals_team[0]
+      find_team_name(highest_goals_team_id)
+    end
+
+    def best_defense
+        average_goals_against = @game_stats.games.reduce(Hash.new(0)) do |acc, game|
+        acc[game.home_team_id] += (game.away_goals.to_f / @game_stats.games.length).round(2)
+        acc[game.away_team_id] += (game.home_goals.to_f / @game_stats.games.length).round(2)
+        acc
+      end
+      least_goals_against = average_goals_against.min_by do |team_id, average_goals|
+        average_goals
+      end
+      least_goals_against_team_id = least_goals_against[0]
+      find_team_name(least_goals_against_team_id)
+    end
+
+    def worst_defense
+      average_goals_against = @game_stats.games.reduce(Hash.new(0)) do |acc, game|
+      acc[game.home_team_id] += (game.away_goals.to_f / @game_stats.games.length).round(2)
+      acc[game.away_team_id] += (game.home_goals.to_f / @game_stats.games.length).round(2)
+      acc
+    end
+    most_goals_against = average_goals_against.max_by do |team_id, average_goals|
+      average_goals
+    end
+    most_goals_against_team_id = most_goals_against[0]
+    find_team_name(most_goals_against_team_id)
+    end
+
 
   def highest_scoring_visitor
     @team_stats.team_stats.max_by do |team, stats|
