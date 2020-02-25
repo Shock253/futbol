@@ -70,7 +70,10 @@ class StatTracker
     (game_count.to_f / @games.length).round(2)
   end
 
-  #count_of_teams
+  def count_of_teams
+    @teams.teams.length
+  end
+
   #best_offense
   #worst_offense
   #best_defense

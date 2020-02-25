@@ -50,6 +50,15 @@ class StatTrackerTest < Minitest::Test
   # test average_goals_per_game
   # test average_goals_by_season
 
+  def test_calculates_count_of_teams
+    assert_equal 10, @stat_tracker.count_of_teams
+  end
+
+  #best_offense
+  #worst_offense
+  #best_defense
+  #worst_defense
+
   def test_it_can_show_highest_scoring_visitor
     assert_equal "Los Angeles FC", @stat_tracker.highest_scoring_visitor
   end
