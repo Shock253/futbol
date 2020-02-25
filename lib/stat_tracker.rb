@@ -11,6 +11,7 @@ class StatTracker
     @team_path = team_path
     @game_team_path = game_team_path
     @games = game_collection.games
+    @teams = team_collection
   end
 
   def self.from_csv(locations)
@@ -76,43 +77,43 @@ class StatTracker
   #worst_defense
 
   def highest_scoring_visitor
-    team_collection.team_stats(@games).max_by do |team, stats|
+    @teams.team_stats(@games).max_by do |team, stats|
       stats[:average_away_goals]
     end.first
   end
 
   def highest_scoring_home_team
-    team_collection.team_stats(@games).max_by do |team, stats|
+    @teams.team_stats(@games).max_by do |team, stats|
       stats[:average_home_goals]
     end.first
   end
 
   def lowest_scoring_visitor
-    team_collection.team_stats(@games).min_by do |team, stats|
+    @teams.team_stats(@games).min_by do |team, stats|
       stats[:average_away_goals]
     end.first
   end
 
   def lowest_scoring_home_team
-    team_collection.team_stats(@games).min_by do |team, stats|
+    @teams.team_stats(@games).min_by do |team, stats|
       stats[:average_home_goals]
     end.first
   end
 
   def winningest_team
-   team_collection.team_stats(@games).max_by do |team, stats|
+   @teams.team_stats(@games).max_by do |team, stats|
      stats[:winning_percentage]
    end.first
   end
 
   def best_fans
-   team_collection.team_stats(@games).max_by do |team, stats|
+   @teams.team_stats(@games).max_by do |team, stats|
      stats[:winning_difference_percentage]
    end.first
   end
 
   def worst_fans
-   team_collection.team_stats(@games).find_all do |team, stats|
+   @teams.team_stats(@games).find_all do |team, stats|
      stats[:more_away_wins] == true
    end.flat_map { |team| team[0] }
   end
