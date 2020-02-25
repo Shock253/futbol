@@ -64,5 +64,4 @@ class StatTracker
     game_count = game_collection.games.length == season
     (game_count.to_f / game_collection.games.length).round(2)
   end
-
 end

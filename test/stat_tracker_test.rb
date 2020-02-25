@@ -46,8 +46,44 @@ class StatTrackerTest < Minitest::Test
     assert_equal 0.10, @stat_tracker.percentage_ties
   end
 
+  def test_can_get_biggest_bust
+
+
+    assert_equal "Montreal Impact", @stat_tracker.biggest_bust("20132014")
+    assert_equal "Sporting Kansas City", @stat_tracker.biggest_bust("20142015")
+
+    # for each team
+    # get win percentage of season
+      # sum and average wins by season
+    # get win percentage of postseason
+      # sum and average wins by postseason
+
+    # compare season win percentage > postseason win percentage
+
+
+
+  end
+
+  def test_can_get_biggest_bust
+    # for each team
+    # get win percentage of season
+      # sum and average wins by season
+    # get win percentage of postseason
+      # sum and average wins by postseason
+
+    # compare season win percentage > postseason win percentage
+
+  end
+
   # test count_of_games_by_season
   # test average_goals_per_game
   # test average_goals_by_season
+
+  # biggest_bust	Name of the team with the biggest decrease between
+  # regular season and postseason win percentage.	String
+
+  # biggest_surprise	Name of the team with the biggest increase between
+  # regular season and postseason win percentage.	String
+
 
 end
