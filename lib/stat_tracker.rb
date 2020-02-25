@@ -4,74 +4,56 @@ require 'CSV'
 
 class StatTracker
 
-  attr_reader :game_path, :team_path, :game_team_path
-
-  def initialize(game_path, team_path, game_team_path)
-    @game_path = game_path
-    @team_path = team_path
-    @game_team_path = game_team_path
-    @games = game_collection.games
-    @teams = team_collection
-  end
-
   def self.from_csv(locations)
     StatTracker.new(locations[:games], locations[:teams], locations[:game_teams])
   end
 
-  def game_collection
-    GameCollection.new(@game_path)
-  end
+  attr_reader :game_stats, :team_stats, :game_team_path
 
-  def team_collection
-    TeamCollection.new(@team_path)
+  def initialize(game_path, team_path, game_team_path)
+    @game_stats = GameCollection.new(game_path)
+    @team_stats = TeamCollection.new(team_path, @game_stats.games)
+    @game_team_path = game_team_path
   end
 
   def highest_total_score
-    @games.max_by { |game| game.total_goals }.total_goals
+    @game_stats.highest_total_score
   end
 
   def lowest_total_score
-    @games.min_by { |game| game.total_goals }.total_goals
+    @game_stats.lowest_total_score
   end
 
   def biggest_blowout
-    @games.reduce([]) do | game_goals_ranges, game|
-      game_goals_ranges << (game.home_goals - game.away_goals).abs
-      game_goals_ranges
-    end.max
+    @game_stats.biggest_blowout
   end
 
   def percentage_home_wins
-    home_wins = @games.count { |game| game.home_win? }
-    (home_wins.to_f / @games.length).round(2)
+    @game_stats.percentage_home_wins
   end
 
   def percentage_visitor_wins
-    away_wins = @games.count { |game| game.away_win? }
-    (away_wins.to_f / @games.length).round(2)
+    @game_stats.percentage_visitor_wins
   end
 
   def percentage_ties
-    ties = @games.count { |game| game.tie? }
-    (ties.to_f / @games.length).round(2)
+    @game_stats.percentage_ties
   end
 
-  def count_of_games_by_season(season)
-    @games.length == season
+  def count_of_games_by_season
+    @game_stats.count_of_games_by_season
   end
 
   def average_goals_per_game
-    total_goals = @games.map { |game| game.total_score }
-    (total_goals.sum.to_f / @games.length).round(2)
+    @game_stats.average_goals_per_game
   end
 
-  def average_goals_by_season(season)
-    game_count = @games.length == season
-    (game_count.to_f / @games.length).round(2)
+  def average_goals_by_season
+    @game_stats.average_goals_by_season
   end
 
   def count_of_teams
-    @teams.teams.length
+    @team_stats.teams.length
   end
 
   #best_offense
@@ -80,43 +62,43 @@ class StatTracker
   #worst_defense
 
   def highest_scoring_visitor
-    @teams.team_stats(@games).max_by do |team, stats|
+    @team_stats.team_stats.max_by do |team, stats|
       stats[:average_away_goals]
     end.first
   end
 
   def highest_scoring_home_team
-    @teams.team_stats(@games).max_by do |team, stats|
+    @team_stats.team_stats.max_by do |team, stats|
       stats[:average_home_goals]
     end.first
   end
 
   def lowest_scoring_visitor
-    @teams.team_stats(@games).min_by do |team, stats|
+    @team_stats.team_stats.min_by do |team, stats|
       stats[:average_away_goals]
     end.first
   end
 
   def lowest_scoring_home_team
-    @teams.team_stats(@games).min_by do |team, stats|
+    @team_stats.team_stats.min_by do |team, stats|
       stats[:average_home_goals]
     end.first
   end
 
   def winningest_team
-   @teams.team_stats(@games).max_by do |team, stats|
+   @team_stats.team_stats.max_by do |team, stats|
      stats[:winning_percentage]
    end.first
   end
 
   def best_fans
-   @teams.team_stats(@games).max_by do |team, stats|
+   @team_stats.team_stats.max_by do |team, stats|
      stats[:winning_difference_percentage]
    end.first
   end
 
   def worst_fans
-   @teams.team_stats(@games).find_all do |team, stats|
+   @team_stats.team_stats.find_all do |team, stats|
      stats[:more_away_wins] == true
    end.flat_map { |team| team[0] }
   end
