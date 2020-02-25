@@ -34,34 +34,34 @@ class TeamCollectionTest < Minitest::Test
   def test_csv_loads
     team_collection = TeamCollection.new("./data/teams.csv")
 
-    team_a = team_collection.teams.first
-    team_z = team_collection.teams.last
+    atlanta = team_collection.teams.first
+    columbus = team_collection.teams.last
 
-    assert_equal 1,                       team_a.team_id
-    assert_equal 23,                      team_a.franchiseId
-    assert_equal "Atlanta United",        team_a.teamName
-    assert_equal "ATL",                   team_a.abbreviation
-    assert_equal "Mercedes-Benz Stadium", team_a.stadium
-    assert_equal "/api/v1/teams/1",       team_a.link
+    assert_equal 1, atlanta.team_id
+    assert_equal 23, atlanta.franchiseId
+    assert_equal "Atlanta United", atlanta.teamName
+    assert_equal "ATL", atlanta.abbreviation
+    assert_equal "Mercedes-Benz Stadium", atlanta.stadium
+    assert_equal "/api/v1/teams/1", atlanta.link
 
-    assert_equal 53,                      team_z.team_id
-    assert_equal 28,                      team_z.franchiseId
-    assert_equal "Columbus Crew SC",      team_z.teamName
-    assert_equal "CCS",                   team_z.abbreviation
-    assert_equal "Mapfre Stadium",        team_z.stadium
-    assert_equal "/api/v1/teams/53",      team_z.link
+    assert_equal 53, columbus.team_id
+    assert_equal 28, columbus.franchiseId
+    assert_equal "Columbus Crew SC", columbus.teamName
+    assert_equal "CCS", columbus.abbreviation
+    assert_equal "Mapfre Stadium", columbus.stadium
+    assert_equal "/api/v1/teams/53", columbus.link
   end
 
   def test_can_find_team_by_id
     stubbed_team_collection = TeamCollection.new("./data/teams.csv")
-    @columbus = stubbed_team_collection.find_team_by_id(53)
+    columbus = stubbed_team_collection.find_team_by_id(53)
 
-    assert_equal 53, @columbus.team_id
-    assert_equal 28, @columbus.franchiseId
-    assert_equal "Columbus Crew SC", @columbus.teamName
-    assert_equal "CCS", @columbus.abbreviation
-    assert_equal "Mapfre Stadium", @columbus.stadium
-    assert_equal "/api/v1/teams/53", @columbus.link
+    assert_equal 53, columbus.team_id
+    assert_equal 28, columbus.franchiseId
+    assert_equal "Columbus Crew SC", columbus.teamName
+    assert_equal "CCS", columbus.abbreviation
+    assert_equal "Mapfre Stadium", columbus.stadium
+    assert_equal "/api/v1/teams/53", columbus.link
   end
 
   def test_it_can_get_all_games_by_team
