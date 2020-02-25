@@ -34,21 +34,20 @@ class StatTracker
   end
 
   def biggest_blowout
-    game_goals_ranges = []
-    game_collection.games.each do |game|
+    @games.reduce([]) do | game_goals_ranges, game|
       game_goals_ranges << (game.home_goals - game.away_goals).abs
-    end
-    game_goals_ranges.max
+      game_goals_ranges
+    end.max
   end
 
   def percentage_home_wins
     home_wins = @games.count { |game| game.home_win? }
-    (home_wins.to_f / game_collection.games.length).round(2)
+    (home_wins.to_f / @games.length).round(2)
   end
 
   def percentage_visitor_wins
     away_wins = @games.count { |game| game.away_win? }
-    (away_wins.to_f / game_collection.games.length).round(2)
+    (away_wins.to_f / @games.length).round(2)
   end
 
   def percentage_ties
