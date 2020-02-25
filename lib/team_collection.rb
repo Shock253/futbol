@@ -113,7 +113,7 @@ class TeamCollection
 
   def team_stats(game_collection)
     @teams.reduce({}) do | team_stats, team |
-      team_stats[team.teamName] = {
+      team_stats[team.team_name] = {
         # total_games: num_of_all_games(game_collection, team.team_id),
         # games_won: num_of_all_wins(game_collection, team.team_id),
         # home_games_won: num_of_home_wins(game_collection, team.team_id),

@@ -38,15 +38,15 @@ class TeamCollectionTest < Minitest::Test
     columbus = team_collection.teams.last
 
     assert_equal 1, atlanta.team_id
-    assert_equal 23, atlanta.franchiseId
-    assert_equal "Atlanta United", atlanta.teamName
+    assert_equal 23, atlanta.franchise_id
+    assert_equal "Atlanta United", atlanta.team_name
     assert_equal "ATL", atlanta.abbreviation
     assert_equal "Mercedes-Benz Stadium", atlanta.stadium
     assert_equal "/api/v1/teams/1", atlanta.link
 
     assert_equal 53, columbus.team_id
-    assert_equal 28, columbus.franchiseId
-    assert_equal "Columbus Crew SC", columbus.teamName
+    assert_equal 28, columbus.franchise_id
+    assert_equal "Columbus Crew SC", columbus.team_name
     assert_equal "CCS", columbus.abbreviation
     assert_equal "Mapfre Stadium", columbus.stadium
     assert_equal "/api/v1/teams/53", columbus.link
@@ -57,8 +57,8 @@ class TeamCollectionTest < Minitest::Test
     columbus = stubbed_team_collection.find_team_by_id(53)
 
     assert_equal 53, columbus.team_id
-    assert_equal 28, columbus.franchiseId
-    assert_equal "Columbus Crew SC", columbus.teamName
+    assert_equal 28, columbus.franchise_id
+    assert_equal "Columbus Crew SC", columbus.team_name
     assert_equal "CCS", columbus.abbreviation
     assert_equal "Mapfre Stadium", columbus.stadium
     assert_equal "/api/v1/teams/53", columbus.link
