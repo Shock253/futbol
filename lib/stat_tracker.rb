@@ -1,5 +1,6 @@
 require_relative './game_collection'
 require_relative './team_collection'
+require_relative './game_team_collection'
 require 'CSV'
 
 class StatTracker
@@ -10,6 +11,9 @@ class StatTracker
     @game_path = game_path
     @team_path = team_path
     @game_team_path = game_team_path
+    @games = game_collection.games
+    @team_stats = team_collection.team_stats(game_collection)
+    @game_teams = game_team_collection
   end
 
   def self.from_csv(locations)
@@ -22,6 +26,10 @@ class StatTracker
 
   def team_collection
     TeamCollection.new(@team_path)
+  end
+
+  def game_team_collection
+     GameTeamCollection.new(@game_team_path)
   end
 
   def highest_total_score
@@ -101,6 +109,21 @@ class StatTracker
    team_collection.team_stats(game_collection).find_all do |team, stats|
      stats[:more_away_wins] == true
    end.flat_map { |team| team[0] }
+
  end
+
+  def most_accurate_team(season)
+    team_id = @game_teams.season_stats(@games, season).max_by do |team,stats|
+      stats[:accuracy_ratio]
+    end.first
+    team_collection.find_team_by_id(team_id).teamName
+  end
+
+  def least_accurate_team(season)
+    team_id = @game_teams.season_stats(@games, season).min_by do |team,stats|
+      stats[:accuracy_ratio]
+    end.first
+    team_collection.find_team_by_id(team_id).teamName
+  end
 
 end

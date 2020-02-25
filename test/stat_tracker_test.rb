@@ -74,4 +74,31 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_calculate_worst_fans
     assert_equal ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"], @stat_tracker.worst_fans
   end
+
+
+  def test_it_can_calculate_most_accurate_team
+    # refactor to not use the entire csv file
+    locations = {
+      games: "./test/fixtures/games_truncated.csv",
+      teams: './data/teams.csv',
+      game_teams: './data/game_teams.csv'
+    }
+
+    stat_tracker = StatTracker.from_csv(locations)
+
+    assert_equal "Real Salt Lake", stat_tracker.most_accurate_team("20132014")
+    assert_equal "New York City FC", stat_tracker.least_accurate_team("20132014")
+  end
+
+  def test_it_can_calculate_least_accurate_team
+    # refactor to not use the entire csv file
+    locations = {
+      games: "./test/fixtures/games_truncated.csv",
+      teams: './data/teams.csv',
+      game_teams: './data/game_teams.csv'
+    }
+
+    stat_tracker = StatTracker.from_csv(locations)
+    assert_equal "New York City FC", stat_tracker.least_accurate_team("20132014")
+  end
 end
