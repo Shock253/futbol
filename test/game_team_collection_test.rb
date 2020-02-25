@@ -26,10 +26,10 @@ class GameTeamCollectionTest < Minitest::Test
     skip
   end
 
-  def test_it_can_get_game_by_id
-    expected = @game_collection.games[0]
-    assert_equal expected, @game_team_collection.get_game_by_id(@game_collection, 2012030221)
-  end
+  # def test_it_can_get_game_by_id
+  #   expected = @game_collection.games[0]
+  #   assert_equal expected, @game_team_collection.get_game_by_id(@game_collection, 2012030221)
+  # end
 
   def test_it_can_get_games_by_season
     skip
@@ -41,6 +41,14 @@ class GameTeamCollectionTest < Minitest::Test
 
   def test_it_can_calculate_season_stats
     skip
+  end
+
+  def test_it_can_find_winningest_coach
+      assert_equal "Claude Julien", @game_team_collection.winningest_coach(@game_collection, "20132014")
+  end
+
+  def test_it_can_find_worst_coach
+        assert_equal "Peter Laviolette", @game_team_collection.worst_coach(@game_collection, "20132014")
   end
 
   def test_it_can_get_goals_by_season

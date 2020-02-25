@@ -28,6 +28,26 @@ class GameTeamCollection
     end
   end
 
+  def winningest_coach(game_collection, season)
+    wins_by_coach = games_by_season(game_collection, season).reduce(Hash.new(0)) do |acc, game|
+      acc[game.head_coach] += 1 if game.result == "WIN"
+      acc
+    end
+    wins_by_coach.max_by do |coach, wins|
+      wins
+    end.first
+  end
+
+  def worst_coach(game_collection, season)
+    losses_by_coach = games_by_season(game_collection, season).reduce(Hash.new(0)) do |acc, game|
+      acc[game.head_coach] += 1 if game.result == "LOSS"
+      acc
+    end
+    losses_by_coach.max_by do |coach, losses|
+      losses
+    end.first
+  end
+
   def tackles(season_info, team_id)
     games = season_info.find_all { | game | game.team_id == team_id}
     games.sum { | game | game.tackles}
@@ -42,6 +62,12 @@ class GameTeamCollection
     games = season_info.find_all { | game | game.team_id == team_id}
     games.sum { | game | game.goals}
   end
+
+  def wins_by_season(season_info, team_id)
+    games_by_season(game_collection, season)
+  end
+
+
 
   def accuracy_ratio(season_info, team_id)
     goals_by_season(season_info, team_id) / shots(season_info, team_id).to_f
