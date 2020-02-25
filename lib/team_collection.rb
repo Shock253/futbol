@@ -66,6 +66,48 @@ class TeamCollection
     away_games_by_team(team_id).length
   end
 
+  def average_goals_per_team(team_id)
+    home_wins = num_of_home_wins(team_id)
+    away_wins = num_of_away_wins(team_id)
+    (home_wins + away_wins) / num_of_all_games(team_id).to_f
+  end
+
+  def average_goals_allowed_by_team
+    @games.reduce(Hash.new(0)) do |acc, game|
+      acc[game.away_team_id] += (game.home_goals.to_f / num_of_all_games(game.away_team_id))
+      acc[game.home_team_id] += (game.away_goals.to_f / num_of_all_games(game.home_team_id))
+      acc
+    end
+  end
+
+  def team_ids
+    @teams.uniq { |game_team| game_team.team_id}.map { |game_team| game_team.team_id }
+  end
+
+  def best_offense
+    highest_goals_team = team_ids.max_by { |team_id| average_goals_per_team(team_id) }
+    find_team_by_id(highest_goals_team).team_name
+  end
+
+  def worst_offense
+    least_goals_team = team_ids.min_by { |team_id| average_goals_per_team(team_id) }
+    find_team_by_id(least_goals_team).team_name
+  end
+
+  def best_defense
+    least_goals_against = average_goals_allowed_by_team.min_by do |team_id, average_goals|
+      average_goals
+    end.first
+    find_team_by_id(least_goals_against).team_name
+  end
+
+  def worst_defense
+    most_goals_against = average_goals_allowed_by_team.max_by do |team_id, average_goals|
+      average_goals
+    end.first
+    find_team_by_id(most_goals_against).team_name
+  end
+
   def winning_percentage(team_id)
     winning_percentage = (num_of_all_wins(team_id).to_f) / num_of_all_games(team_id)
     winning_percentage = 0.0 if winning_percentage.nan?
@@ -112,21 +154,87 @@ class TeamCollection
     average
   end
 
-  def team_stats
-    @teams.reduce({}) do | team_stats, team |
+  def highest_scoring_visitor
+    team_stats = @teams.reduce({}) do | team_stats, team |
       team_stats[team.team_name] = {
-        # total_games: num_of_all_games(@games, team.team_id),
-        # games_won: num_of_all_wins(@games, team.team_id),
-        # home_games_won: num_of_home_wins(@games, team.team_id),
         average_away_goals: average_away_goals(team.team_id),
+      }
+      team_stats
+    end
+    team_stats.max_by do |team, stats|
+      stats[:average_away_goals]
+    end.first
+  end
+
+  def highest_scoring_home_team
+    team_stats = @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
         average_home_goals: average_home_goals(team.team_id),
-        # away_games_won: num_of_away_wins(@games, team.team_id),
+      }
+      team_stats
+    end
+    team_stats.max_by do |team, stats|
+      stats[:average_home_goals]
+    end.first
+  end
+
+  def lowest_scoring_home_team
+    team_stats = @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
+        average_home_goals: average_home_goals(team.team_id),
+      }
+      team_stats
+    end
+    team_stats.min_by do |team, stats|
+      stats[:average_home_goals]
+    end.first
+  end
+
+  def lowest_scoring_visitor
+    team_stats = @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
+        average_away_goals: average_away_goals(team.team_id),
+      }
+      team_stats
+    end
+    team_stats.min_by do |team, stats|
+      stats[:average_away_goals]
+    end.first
+  end
+
+  def winningest_team
+    team_stats = @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
         winning_percentage: winning_percentage(team.team_id),
+      }
+      team_stats
+    end
+    team_stats.max_by do |team, stats|
+      stats[:winning_percentage]
+    end.first
+  end
+
+  def best_fans
+    team_stats = @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
         winning_difference_percentage: total_win_difference_home_and_away(team.team_id),
+      }
+      team_stats
+    end
+    team_stats.max_by do |team, stats|
+      stats[:winning_difference_percentage]
+    end.first
+  end
+
+  def worst_fans
+    team_stats = @teams.reduce({}) do | team_stats, team |
+      team_stats[team.team_name] = {
         more_away_wins: more_away_wins?(team.team_id)
       }
       team_stats
     end
+    team_stats.find_all do |team, stats|
+      stats[:more_away_wins] == true
+    end.flat_map { |team| team[0] }
   end
-
 end

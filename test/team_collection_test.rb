@@ -130,19 +130,4 @@ class TeamCollectionTest < Minitest::Test
     assert_equal 3, @team_collection.average_home_goals(@dallas.team_id)
   end
 
-  def test_it_can_create_team_stats
-    expected = {
-      # :total_games=>1,
-      # :games_won=>1,
-      # :home_games_won=>1,
-      :average_away_goals=>0.0,
-      :average_home_goals=>3.0,
-      # :away_games_won=>0,
-      :winning_percentage=>100.0,
-      :winning_difference_percentage=>0.0,
-      :more_away_wins=>false
-    }
-    assert_equal expected, @team_collection.team_stats["Chicago Red Stars"]
-  end
-
 end

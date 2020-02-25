@@ -75,16 +75,12 @@ class StatTrackerTest < Minitest::Test
     assert_equal 10, @stat_tracker.count_of_teams
   end
 
-  def test_find_team_name
-    assert_equal "FC Dallas", @stat_tracker.find_team_name(6)
-  end
-
   def test_best_offense
-    assert_equal "FC Dallas", @stat_tracker.best_offense
+    assert_equal "Chicago Red Stars", @stat_tracker.best_offense
   end
 
   def test_worst_offense
-    assert_equal "North Carolina Courage", @stat_tracker.worst_offense
+    assert_equal "FC Cincinnati", @stat_tracker.worst_offense
   end
 
   def test_best_defense
@@ -92,7 +88,7 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_worst_defense
-    assert_equal "Houston Dynamo", @stat_tracker.worst_defense
+    assert_equal "FC Cincinnati", @stat_tracker.worst_defense
   end
 
   def test_it_can_show_highest_scoring_visitor
@@ -102,7 +98,7 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_show_highest_scoring_home_team
     assert_equal "Chicago Red Stars", @stat_tracker.highest_scoring_home_team
   end
-# some of the tests are returning teams that have limited data in the truncated file; how do we fix that?
+
   def test_it_can_show_lowest_scoring_visitor
     assert_equal "Chicago Red Stars", @stat_tracker.lowest_scoring_visitor
   end
