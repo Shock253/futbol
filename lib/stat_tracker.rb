@@ -13,7 +13,7 @@ class StatTracker
   def initialize(game_path, team_path, game_team_path)
     @game_stats = GameCollection.new(game_path)
     @team_stats = TeamCollection.new(team_path, @game_stats.games)
-    @game_team_path = game_team_path
+    @game_team_path = GameTeamCollection.new(game_team_path, @game_stats.games)
   end
 
   def highest_total_score

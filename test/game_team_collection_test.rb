@@ -10,7 +10,7 @@ class GameTeamCollectionTest < Minitest::Test
   def setup
     @game_collection = GameCollection.new("./test/fixtures/games_truncated.csv")
     @team_collection = TeamCollection.new("./test/fixtures/teams_truncated.csv", @game_collection.games)
-    @game_team_collection = GameTeamCollection.new("./data/game_teams.csv")
+    @game_team_collection = GameTeamCollection.new("./data/game_teams.csv", @game_collection.games)
   end
 
   def test_it_exists
@@ -28,7 +28,7 @@ class GameTeamCollectionTest < Minitest::Test
 
   def test_it_can_get_game_by_id
     expected = @game_collection.games[0]
-    assert_equal expected, @game_team_collection.get_game_by_id(@game_collection, 2012030221)
+    assert_equal expected, @game_team_collection.get_game_by_id(2012030221)
   end
 
   def test_it_can_get_games_by_season
