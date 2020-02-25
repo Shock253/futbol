@@ -6,7 +6,7 @@ require 'CSV'
 class StatTracker
 
   attr_reader :game_path, :team_path, :game_team_path
-
+# look up memoization @gamepath ||= game_path
   def initialize(game_path, team_path, game_team_path)
     @game_path = game_path
     @team_path = team_path

@@ -43,4 +43,9 @@ class GameTeamCollectionTest < Minitest::Test
     skip
   end
 
+  def test_it_can_get_goals_by_season
+    season_info = @game_team_collection.games_by_season(@game_collection, "20132014")
+    assert_equal 220, @game_team_collection.goals_by_season(season_info, 6)
+  end
+
 end
