@@ -9,7 +9,7 @@ class GameTeamCollectionTest < Minitest::Test
 
   def setup
     @game_collection = GameCollection.new("./test/fixtures/games_truncated.csv")
-    @team_collection = TeamCollection.new("./test/fixtures/teams_truncated.csv")
+    @team_collection = TeamCollection.new("./test/fixtures/teams_truncated.csv", @game_collection.games)
     @game_team_collection = GameTeamCollection.new("./data/game_teams.csv")
   end
 

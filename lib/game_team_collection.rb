@@ -18,7 +18,7 @@ class GameTeamCollection
   end
 
   def get_game_by_id(game_collection, game_id)
-    game_collection.find { |game| game.id == game_id }
+    game_collection.games.find { |game| game.game_id == game_id }
   end
 
   def games_by_season(game_collection, season)
