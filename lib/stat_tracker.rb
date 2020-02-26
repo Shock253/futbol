@@ -1,4 +1,5 @@
 require_relative './game_collection'
+require_relative './team_collection'
 require 'CSV'
 
 class StatTracker
@@ -13,6 +14,10 @@ class StatTracker
     @game_stats = GameCollection.new(game_path)
     @team_path = team_path
     @game_team_path = game_team_path
+  end
+
+  def team_collection
+    TeamCollection.new(@team_path)
   end
 
   def highest_total_score
@@ -49,5 +54,23 @@ class StatTracker
 
   def average_goals_by_season
     @game_stats.average_goals_by_season
+  end
+
+  def winningest_team
+    team_collection.team_stats(game_collection).max_by do |team, stats|
+      stats[:winning_percentage]
+    end.first
+  end
+
+  def best_fans
+    team_collection.team_stats(game_collection).max_by do |team, stats|
+      stats[:winning_difference_percentage]
+    end.first
+  end
+
+  def worst_fans
+    team_collection.team_stats(game_collection).find_all do |team, stats|
+      stats[:more_away_wins] == true
+    end.flat_map { |team| team[0] }
   end
 end

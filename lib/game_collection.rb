@@ -15,6 +15,13 @@ class GameCollection
     end
   end
 
+  def games_by_season(game_collection, season)
+    @games.find_all do | game |
+      game_info = get_game_by_id(game_collection, game.game_id)
+      game_info.season == season
+    end
+  end
+
   def highest_total_score
     @games.max_by { |game| game.total_goals }.total_goals
   end
