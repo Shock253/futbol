@@ -96,4 +96,12 @@ class GameCollectionTest < Minitest::Test
     assert_equal expected, @game_collection.average_goals_by_season
   end
 
+  def test_it_returns_biggest_bust
+    game_collection = GameCollection.new("./data/games.csv")
+
+    assert_equal "Montreal Impact", game_collection.biggest_bust("20132014") 
+    assert_equal "Sporting Kansas City", game_collection.biggest_bust("20142015") 
+
+  end
+
 end

@@ -76,4 +76,54 @@ class GameCollection
     average_goals
   end
 
+  def biggest_bust(season)
+    games_by_season = @games.find_all do | game |
+      game.season == season
+    end
+
+    season_games_by_type = games_by_season.group_by do |game|
+      game.type
+    end
+
+    post_games_by_team = season_games_by_type["Postseason"].reduce(Hash.new) do |acc, game|
+      acc[game.away_team_id] ||= []
+      acc[game.home_team_id] ||= []
+
+      acc[game.away_team_id] << game
+      acc[game.home_team_id] << game
+
+
+      acc
+    end
+
+    reg_games_by_team = season_games_by_type["Regular Season"].reduce(Hash.new) do |acc, game|
+      acc[game.away_team_id] ||= []
+      acc[game.home_team_id] ||= []
+
+      acc[game.away_team_id] << game
+      acc[game.home_team_id] << game
+
+
+      acc
+    end
+    require "pry"; binding.pry
+    # sum of their wins / length of the games arr
+    #
+    #   team_total_wins = team_games.reduce(0) do |sum, game|
+    #     if game.team_win?(team_id)
+    #       sum += 1
+    #     end
+    #
+    #     sum
+    #   end
+    #
+    #   team_total_wins.to_f / games.length
+
+
+    # season_games_by_type["Regular Season"].reduce(Hash.new) do |acc, type, games|
+    #   acc[team_id] = [that teams games]
+    # end
+    require "pry"; binding.pry
+  end
+
 end
