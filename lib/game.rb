@@ -38,4 +38,15 @@ class Game
   def tie?
     @home_goals == @away_goals
   end
+
+  def team_win?(team_id)
+    if team_id == @away_team_id
+      away_win?
+    elsif team_id == @home_team_id
+      home_win?
+    end
+  end
 end
+
+
+# TODO: write test for team_win?

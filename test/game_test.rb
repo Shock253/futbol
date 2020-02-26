@@ -22,14 +22,21 @@ class GameTest < Minitest::Test
     game_data1 = game_data_template.clone
     game_data1[:away_goals] = 3
     game_data1[:home_goals] = 2
+    game_data1[:away_team_id] = 3
+    game_data1[:home_team_id] = 6
+
 
     game_data2 = game_data_template.clone
     game_data2[:away_goals] = 1
     game_data2[:home_goals] = 4
+    game_data2[:away_team_id] = 6
+    game_data2[:home_team_id] = 3
 
     game_data3 = game_data_template.clone
     game_data3[:away_goals] = 2
     game_data3[:home_goals] = 2
+    game_data3[:away_team_id] = 3
+    game_data3[:home_team_id] = 6
 
 
     @game1 = Game.new(game_data1)
@@ -76,5 +83,22 @@ class GameTest < Minitest::Test
     assert_equal false, @game1.tie?
     assert_equal false, @game2.tie?
     assert_equal true, @game3.tie?
+  end
+
+  def test_checks_team_win
+    assert_equal false, @game1.team_win?(6)
+    assert_equal true, @game1.team_win?(3)
+    assert_nil @game1.team_win?(0)
+
+
+    assert_equal false, @game2.team_win?(6)
+    assert_equal true, @game2.team_win?(3)
+    assert_nil @game2.team_win?(0)
+
+
+    assert_equal false, @game3.team_win?(6)
+    assert_equal false, @game3.team_win?(3)
+    assert_nil @game3.team_win?(0)
+
   end
 end
