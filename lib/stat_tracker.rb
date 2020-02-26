@@ -107,7 +107,7 @@ class StatTracker
   end
 
   def fewest_tackles(season)
-    team_id = @season_stats.worst_tackles(season)
+    team_id = @season_stats.fewest_tackles(season)
     @team_stats.find_team_by_id(team_id).team_name
   end
 
