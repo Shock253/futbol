@@ -1,5 +1,5 @@
 class Game
-  attr_reader :id,
+  attr_reader :game_id,
               :season,
               :type,
               :date_time,
@@ -10,9 +10,8 @@ class Game
               :venue,
               :venue_link
 
-
   def initialize(game_params)
-    @id             = game_params[:id].to_i
+    @game_id        = game_params[:game_id].to_i
     @season         = game_params[:season]
     @type           = game_params[:type]
     @date_time      = game_params[:date_time]
@@ -39,5 +38,4 @@ class Game
   def tie?
     @home_goals == @away_goals
   end
-
 end
