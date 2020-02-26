@@ -1,5 +1,6 @@
 require_relative './game_collection'
 require_relative './team_collection'
+require_relative './game_team_collection'
 require 'CSV'
 
 class StatTracker
@@ -8,12 +9,12 @@ class StatTracker
     StatTracker.new(locations[:games], locations[:teams], locations[:game_teams])
   end
 
-  attr_reader :game_stats, :team_stats, :game_team_path
+  attr_reader :game_stats, :team_stats, :season_stats
 
   def initialize(game_path, team_path, game_team_path)
     @game_stats = GameCollection.new(game_path)
     @team_stats = TeamCollection.new(team_path, @game_stats.games)
-    @game_team_path = GameTeamCollection.new(game_team_path, @game_stats.games)
+    @season_stats = GameTeamCollection.new(game_team_path, @game_stats.games)
   end
 
   def highest_total_score
@@ -98,6 +99,16 @@ class StatTracker
 
   def worst_fans
     @team_stats.worst_fans
+  end
+
+  def most_tackles(season)
+    team_id = @season_stats.most_tackles(season)
+    @team_stats.find_team_by_id(team_id).team_name
+  end
+
+  def fewest_tackles(season)
+    team_id = @season_stats.worst_tackles(season)
+    @team_stats.find_team_by_id(team_id).team_name
   end
 
 end

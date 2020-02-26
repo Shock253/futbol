@@ -22,23 +22,28 @@ class GameTeamCollection
     @games.find { |game| game.game_id == game_id }
   end
 
-  def games_by_season(season)
-    @game_teams.find_all do | game |
-      game_info = get_game_by_id(game.game_id)
-      game_info.season == season
-    end
+  def game_teams_by_season(season)
+    @game_teams.find_all { | game | game.game_id.to_s[0..3] == season[0..3] }
   end
 
-  def tackles(season_info, team_id)
+  def tackles_per_team(season_info, team_id)
     games = season_info.find_all { | game | game.team_id == team_id}
     games.sum { | game | game.tackles}
   end
 
+  def most_tackles(season)
+    season_stats(season).max_by {|team,stats| stats[:tackles]}.first
+  end
+
+  def fewest_tackles(season)
+    season_stats(season).min_by {|team,stats| stats[:tackles]}.first
+  end
+
   def season_stats(season)
-    season_info = games_by_season(season)
+    season_info = game_teams_by_season(season)
     season_info.reduce({}) do | season_stats, game |
       season_stats[game.team_id] = {
-        tackles: tackles(season_info, game.team_id)
+        tackles: tackles_per_team(season_info, game.team_id)
       }
       season_stats
     end

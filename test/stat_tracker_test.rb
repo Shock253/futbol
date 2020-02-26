@@ -21,6 +21,14 @@ class StatTrackerTest < Minitest::Test
     assert_instance_of GameCollection, @stat_tracker.game_stats
   end
 
+  def test_team_collection
+    assert_instance_of TeamCollection, @stat_tracker.team_stats
+  end
+
+  def test_game_team_collection
+    assert_instance_of GameTeamCollection, @stat_tracker.season_stats
+  end
+
   def test_it_show_highest_total_score
     assert_equal 7, @stat_tracker.highest_total_score
   end
@@ -118,5 +126,15 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_calculate_worst_fans
     expected = ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"]
     assert_equal expected, @stat_tracker.worst_fans
+  end
+
+  def test_it_can_calculate_most_tackles
+    locations = {
+      games: './data/games.csv',
+      teams: './data/teams.csv',
+      game_teams: './data/game_teams.csv'
+    }
+    stat_tracker = StatTracker.from_csv(locations)
+    assert_equal "FC Cincinnati", stat_tracker.most_tackles("20132014")
   end
 end
