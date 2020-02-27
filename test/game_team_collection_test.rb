@@ -35,15 +35,8 @@ class GameTeamCollectionTest < Minitest::Test
     assert_equal expected, @game_team_collection.get_game_by_id(2012030221)
   end
 
-  def test_it_can_get_game_teams_by_season
-    game_teams_by_season = @game_team_collection.game_teams_by_season("20132014")
-    game_team = @game_team_collection.game_teams_by_season("20132014")[0]
-    assert_instance_of GameTeam, game_team
-    assert_equal 2646, game_teams_by_season.size
-  end
-
   def test_it_can_calculate_tackles
-    season_info = @game_team_collection.game_teams_by_season("20132014")
+    season_info = @game_team_collection.game_team_stats["20132014"[0..3]]
     assert_equal 2441, @game_team_collection.tackles_per_team(season_info, 6)
   end
 
@@ -62,7 +55,7 @@ class GameTeamCollectionTest < Minitest::Test
   end
 
   def test_it_can_get_goals_by_season
-    season_info = @game_team_collection.game_teams_by_season("20132014")
+    season_info = @game_team_collection.game_team_stats["20132014"[0..3]]
     assert_equal 220, @game_team_collection.goals_by_season(season_info, 6)
   end
 

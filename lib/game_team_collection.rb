@@ -4,28 +4,28 @@ require 'CSV'
 
 class GameTeamCollection
 
-  attr_reader :game_teams, :game_stats
+  attr_reader :game_teams, :game_team_stats
 
   def initialize(csv_file_path, games)
-    @game_teams = create_game_teams(csv_file_path)
     @games = games
     @game_team_stats = {}
+    @game_teams = create_game_teams(csv_file_path)
   end
 
   def create_game_teams(csv_file_path)
-    csv = CSV.read(csv_file_path, headers: true, header_converters: :symbol)
-    csv.map do |row|
+     csv = CSV.read(csv_file_path, headers: true, header_converters: :symbol)
+     csv.map do |row|
+       if !@game_team_stats.key? GameTeam.new(row).game_id.to_s[0..3]
+         @game_team_stats[GameTeam.new(row).game_id.to_s[0..3]] = [GameTeam.new(row)]
+       else
+         @game_team_stats[GameTeam.new(row).game_id.to_s[0..3]] << GameTeam.new(row)
+       end
        GameTeam.new(row)
-    end
-  end
+     end
+   end
 
   def get_game_by_id(game_id)
     @games.find { |game| game.game_id == game_id }
-  end
-
-
-  def game_teams_by_season(season)
-    @game_teams.find_all { | game | game.game_id.to_s[0..3] == season[0..3] }
   end
 
   def tackles_per_team(season_info, team_id)
@@ -42,7 +42,7 @@ class GameTeamCollection
   end
 
   def winningest_coach(season)
-    wins_by_coach = game_teams_by_season(season).reduce(Hash.new(0)) do |acc, game|
+    wins_by_coach = @game_team_stats[season[0..3]].reduce(Hash.new(0)) do |acc, game|
       acc[game.head_coach] += 1 if game.result == "WIN"
       acc
     end
@@ -52,7 +52,7 @@ class GameTeamCollection
   end
 
   def games_by_coach(season)
-    games_by_coach = game_teams_by_season(season).group_by {|game| game.head_coach}
+    games_by_coach = @game_team_stats[season[0..3]].group_by {|game| game.head_coach}
     games_by_coach
   end
 
@@ -87,8 +87,8 @@ class GameTeamCollection
   end
 
   def season_stats(season)
-    season_info = game_teams_by_season(season)
-    season_info.reduce({}) do | season_stats, game |
+    season_info = @game_team_stats[season[0..3]]
+      season_info.reduce({}) do | season_stats, game |
       season_stats[game.team_id] = {
         tackles: tackles_per_team(season_info, game.team_id),
         accuracy_ratio: accuracy_ratio(season_info, game.team_id),
