@@ -23,24 +23,40 @@ class GameTeamCollectionTest < Minitest::Test
   end
 
   def test_it_can_create_game_teams
-    skip
+    game_team = @game_team_collection.game_teams.first
+    assert_instance_of GameTeam, game_team
+    game_team = @game_team_collection.game_teams.last
+    assert_instance_of GameTeam, game_team
+    assert_equal 14882, @game_team_collection.game_teams.size
   end
 
   def test_it_can_get_game_by_id
-    expected = @game_collection.games[0]
+    expected = @game_collection.games.first
     assert_equal expected, @game_team_collection.get_game_by_id(2012030221)
   end
 
-  def test_it_can_get_games_by_season
-    skip
-  end
-
   def test_it_can_calculate_tackles
-    skip
+    season_info = @game_team_collection.game_team_stats["20132014"[0..3]]
+    assert_equal 2441, @game_team_collection.tackles_per_team(season_info, 6)
   end
 
   def test_it_can_calculate_season_stats
-    skip
+    season_stats = @game_team_collection.season_stats("20132014")
+    expected = {:tackles=>2441, :accuracy_ratio=>0.3064066852367688}
+    assert_equal expected, season_stats[6]
+  end
+
+  def test_it_can_find_winningest_coach
+    assert_equal "Claude Julien", @game_team_collection.winningest_coach("20132014")
+  end
+
+  def test_it_can_find_worst_coach
+    assert_equal "Peter Laviolette", @game_team_collection.worst_coach("20132014")
+  end
+
+  def test_it_can_get_goals_by_season
+    season_info = @game_team_collection.game_team_stats["20132014"[0..3]]
+    assert_equal 220, @game_team_collection.goals_by_season(season_info, 6)
   end
 
 end

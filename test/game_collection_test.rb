@@ -28,7 +28,6 @@ class GameCollectionTest < Minitest::Test
     assert_instance_of Game, game1
     assert_equal 2, game1.away_goals
     assert_equal 3, game1.away_team_id
-    assert_equal "5/16/13", game1.date_time
     assert_equal 3, game1.home_goals
     assert_equal 6, game1.home_team_id
     assert_equal 2012030221, game1.game_id
@@ -38,7 +37,6 @@ class GameCollectionTest < Minitest::Test
     assert_instance_of Game, game2
     assert_equal 3, game2.away_goals
     assert_equal 16, game2.away_team_id
-    assert_equal "4/18/14", game2.date_time
     assert_equal 2, game2.home_goals
     assert_equal 19, game2.home_team_id
     assert_equal 2013030161, game2.game_id

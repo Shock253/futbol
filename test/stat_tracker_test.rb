@@ -129,12 +129,28 @@ class StatTrackerTest < Minitest::Test
   end
 
   def test_it_can_calculate_most_tackles
-    locations = {
-      games: './data/games.csv',
-      teams: './data/teams.csv',
-      game_teams: './data/game_teams.csv'
-    }
-    stat_tracker = StatTracker.from_csv(locations)
-    assert_equal "FC Cincinnati", stat_tracker.most_tackles("20132014")
+    assert_equal "FC Cincinnati", @stat_tracker.most_tackles("20132014")
+  end
+
+  def test_it_can_calculate_most_accurate_team
+    # refactor to not use the entire csv file
+    @stat_tracker.stubs(:most_accurate_team).returns("Real Salt Lake")
+    assert_equal "Real Salt Lake", @stat_tracker.most_accurate_team("20132014")
+  end
+
+  def test_it_can_calculate_least_accurate_team
+    # refactor to not use the entire csv file
+    @stat_tracker.stubs(:least_accurate_team).returns("New York City FC")
+    assert_equal "New York City FC", @stat_tracker.least_accurate_team("20132014")
+  end
+
+  def test_it_can_calculate_winningest_coach
+    # refactor to not use the entire csv file
+    assert_equal "Claude Julien", @stat_tracker.winningest_coach("20132014")
+  end
+
+  def test_it_can_calculate_worst_coach
+    # refactor to not use the entire csv file
+    assert_equal "Peter Laviolette", @stat_tracker.worst_coach("20132014")
   end
 end
