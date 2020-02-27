@@ -21,6 +21,14 @@ class StatTrackerTest < Minitest::Test
     assert_instance_of GameCollection, @stat_tracker.game_stats
   end
 
+  def test_team_collection
+    assert_instance_of TeamCollection, @stat_tracker.team_stats
+  end
+
+  def test_game_team_collection
+    assert_instance_of GameTeamCollection, @stat_tracker.season_stats
+  end
+
   def test_it_show_highest_total_score
     assert_equal 7, @stat_tracker.highest_total_score
   end
@@ -118,5 +126,31 @@ class StatTrackerTest < Minitest::Test
   def test_it_can_calculate_worst_fans
     expected = ["Los Angeles FC", "New England Revolution", "Sporting Kansas City"]
     assert_equal expected, @stat_tracker.worst_fans
+  end
+
+  def test_it_can_calculate_most_tackles
+    assert_equal "FC Cincinnati", @stat_tracker.most_tackles("20132014")
+  end
+
+  def test_it_can_calculate_most_accurate_team
+    # refactor to not use the entire csv file
+    @stat_tracker.stubs(:most_accurate_team).returns("Real Salt Lake")
+    assert_equal "Real Salt Lake", @stat_tracker.most_accurate_team("20132014")
+  end
+
+  def test_it_can_calculate_least_accurate_team
+    # refactor to not use the entire csv file
+    @stat_tracker.stubs(:least_accurate_team).returns("New York City FC")
+    assert_equal "New York City FC", @stat_tracker.least_accurate_team("20132014")
+  end
+
+  def test_it_can_calculate_winningest_coach
+    # refactor to not use the entire csv file
+    assert_equal "Claude Julien", @stat_tracker.winningest_coach("20132014")
+  end
+
+  def test_it_can_calculate_worst_coach
+    # refactor to not use the entire csv file
+    assert_equal "Peter Laviolette", @stat_tracker.worst_coach("20132014")
   end
 end

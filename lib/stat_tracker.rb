@@ -1,5 +1,6 @@
 require_relative './game_collection'
 require_relative './team_collection'
+require_relative './game_team_collection'
 require 'CSV'
 
 class StatTracker
@@ -8,12 +9,16 @@ class StatTracker
     StatTracker.new(locations[:games], locations[:teams], locations[:game_teams])
   end
 
-  attr_reader :game_stats, :team_stats, :game_team_path
+  attr_reader :game_stats, :team_stats, :season_stats
 
   def initialize(game_path, team_path, game_team_path)
     @game_stats = GameCollection.new(game_path)
     @team_stats = TeamCollection.new(team_path, @game_stats.games)
-    @game_team_path = game_team_path
+    @season_stats = GameTeamCollection.new(game_team_path, @game_stats.games)
+  end
+
+  def game_team_collection
+     GameTeamCollection.new(@game_team_path)
   end
 
   def highest_total_score
@@ -98,6 +103,63 @@ class StatTracker
 
   def worst_fans
     @team_stats.worst_fans
+  end
+
+  def most_tackles(season)
+    team_id = @season_stats.most_tackles(season)
+    @team_stats.find_team_by_id(team_id).team_name
+  end
+
+  def fewest_tackles(season)
+    team_id = @season_stats.fewest_tackles(season)
+    @team_stats.find_team_by_id(team_id).team_name
+  end
+
+  def most_accurate_team(season)
+    team_id = @season_stats.season_stats(season).max_by do |team,stats|
+      stats[:accuracy_ratio]
+    end.first
+    @team_stats.find_team_by_id(team_id).team_name
+  end
+
+  def least_accurate_team(season)
+    team_id = @season_stats.season_stats(season).min_by do |team,stats|
+      stats[:accuracy_ratio]
+    end.first
+    @team_stats.find_team_by_id(team_id).team_name
+  end
+
+  def winningest_coach(season)
+    team_id = @season_stats.season_stats(season).min_by do |team,stats|
+      stats[:accuracy_ratio]
+    end.first
+    @team_stats.find_team_by_id(team_id).team_name
+  end
+
+  def most_goals_scored(team_id)
+    game_teams = @season_stats.game_teams.find_all do |game_team|
+      game_team.team_id == team_id.to_i
+    end
+    game_teams.max_by do |game_team|
+      game_team.goals
+    end.goals
+  end
+
+  def fewest_goals_scored(team_id)
+    game_teams = @season_stats.game_teams.find_all do |game_team|
+      game_team.team_id == team_id.to_i
+    end
+    game_teams.min_by do |game_team|
+      game_team.goals
+    end.goals
+  end
+
+  def winningest_coach(season)
+    @season_stats.winningest_coach(season)
+  end
+
+  def worst_coach(season)
+    @season_stats.worst_coach(season)
   end
 
 end
