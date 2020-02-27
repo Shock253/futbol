@@ -1,5 +1,4 @@
 require "./test/test_helper"
-require "mocha/minitest"
 require "./lib/team_collection"
 require "./lib/game_collection"
 require "./lib/game_team_collection"

@@ -129,13 +129,6 @@ class StatTracker
     @team_stats.find_team_by_id(team_id).team_name
   end
 
-  def winningest_coach(season)
-    team_id = @season_stats.season_stats(season).min_by do |team,stats|
-      stats[:accuracy_ratio]
-    end.first
-    @team_stats.find_team_by_id(team_id).team_name
-  end
-
   def most_goals_scored(team_id)
     game_teams = @season_stats.game_teams.find_all do |game_team|
       game_team.team_id == team_id.to_i
