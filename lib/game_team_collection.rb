@@ -22,7 +22,7 @@ class GameTeamCollection
        end
        GameTeam.new(row)
      end
-   end
+  end
 
   def get_game_by_id(game_id)
     @games.find { |game| game.game_id == game_id }
@@ -39,16 +39,6 @@ class GameTeamCollection
 
   def fewest_tackles(season)
     season_stats(season).min_by {|team,stats| stats[:tackles]}.first
-  end
-
-  def winningest_coach(season)
-    wins_by_coach = @game_team_stats[season[0..3]].reduce(Hash.new(0)) do |acc, game|
-      acc[game.head_coach] += 1 if game.result == "WIN"
-      acc
-    end
-    wins_by_coach.max_by do |coach, wins|
-      wins
-    end.first
   end
 
   def games_by_coach(season)
